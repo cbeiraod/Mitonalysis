@@ -133,6 +133,8 @@ def make_multiscatter_plot(
     full_html: bool = False,  # For saving a html containing only a div with the plot
     extra_title: str = "",
     file_name: str = "multi_scatter",
+    opacity: float = 0.7,
+    marker_size: float = 2,
     ):
 
     fig = px.scatter_matrix(
@@ -142,13 +144,13 @@ def make_multiscatter_plot(
         color = color_var,
         symbol = symbol_var,
         title = "{}<br><sup>Run: {}{}</sup>".format(title, run_name, extra_title),
-        opacity = 0.7,
+        opacity = opacity,
     )
 
     fig.update_traces(
         diagonal_visible=False,
         showupperhalf=False,
-        marker = {'size': 2},
+        marker = {'size': marker_size},
     )
     for k in range(len(fig.data)):
         fig.data[k].update(

@@ -121,6 +121,63 @@ def get_sorted_measurements_from_path(mitometer_path: Path, logger: logging.Logg
 
     return file_list
 
+def make_multiscatter_plot(
+    data_df:pandas.DataFrame,
+    run_name: str,
+    base_path: Path,
+    dimensions: list[str],
+    title: str = "Scatter plot comparing variables",
+    labels: dict[str, str] = {},
+    color_var: str = None,
+    symbol_var: str = None,
+    full_html: bool = False,  # For saving a html containing only a div with the plot
+    extra_title: str = "",
+    file_name: str = "multi_scatter",
+    ):
+
+    fig = px.scatter_matrix(
+        data_df,
+        dimensions = sorted(dimensions),
+        labels = labels,
+        color = color_var,
+        symbol = symbol_var,
+        title = "{}<br><sup>Run: {}{}</sup>".format(title, run_name, extra_title),
+        opacity = 0.7,
+    )
+
+    fig.update_traces(
+        diagonal_visible=False,
+        showupperhalf=False,
+        marker = {'size': 2},
+    )
+    for k in range(len(fig.data)):
+        fig.data[k].update(
+            selected = dict(
+                marker = dict(
+                    #opacity = 1,
+                    #color = 'blue',
+                )
+            ),
+            unselected = dict(
+                marker = dict(
+                    #opacity = 0.1,
+                    color="grey"
+                )
+            ),
+        )
+
+    # This is the workaround of plotly not supporting latex in hover labels, by changing only the title at the end
+    # this workaround worked for histograms but not for scatters... :(
+    #fig.update_layout({"xaxis{}".format(i+1): dict(title = labels[dimensions[i]]) for i in range(len(labels))})
+    #fig.update_layout({"yaxis{}".format(i+1): dict(title = labels[dimensions[i]], tickangle = -45) for i in range(len(labels))})
+
+    fig.write_html(
+        base_path/f'{file_name}.html',
+        full_html = full_html,
+        include_plotlyjs = 'cdn',
+        include_mathjax = 'cdn',
+    )
+
 def make_histogram_plot(
     data_df: pandas.DataFrame,
     x_var: str,

@@ -47,8 +47,6 @@ def compare_individual_assays_task(
     runs = sorted(full_df["Run Number"].unique())
 
     with Zacarias.handle_task(task_name, drop_old_data=True, loop_iterations = len(runs)) as Rembrandt:
-        full_df["Has Moved"] = (~(full_df["displacement"] == 0))
-
         for run in runs:
             output_dir = Rembrandt.task_path / f'assay_{run}'
             output_dir.mkdir(exist_ok = True)
@@ -225,10 +223,6 @@ def summarise_experiments_task(
         sliced_df = full_df[~full_df.index.duplicated(keep='last')]
         sliced_df.reset_index(inplace=True)
         full_df.reset_index(inplace=True)
-
-        # Create category for no movement
-        #full_df["Has Moved"] = (~(full_df["displacement"] == 0) * 1)
-        full_df["Has Moved"] = (~(full_df["displacement"] == 0))
 
         for measurement in all_measurements:
             utilities.make_histogram_plot(

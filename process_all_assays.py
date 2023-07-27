@@ -52,10 +52,6 @@ def summarise_all_assays_task(
         sliced_df.reset_index(inplace=True)
         full_df.reset_index(inplace=True)
 
-        # Create category for no movement
-        #full_df["Has Moved"] = (~(full_df["displacement"] == 0) * 1)
-        full_df["Has Moved"] = (~(full_df["displacement"] == 0))
-
         for measurement in all_measurements:
             utilities.make_histogram_plot(
                 data_df = sliced_df,

@@ -50,10 +50,6 @@ def plot_summary_task(
             sliced_df.reset_index(inplace=True)
             run_df.reset_index(inplace=True)
 
-            # Create category for no movement
-            run_df["Has Moved"] = (~(run_df["displacement"] == 0) * 1)
-            run_df["Has Moved"] = (~(run_df["displacement"] == 0))
-
             for measurement in all_measurements:
                 # measurement_df = run_df.pivot(index=["Mitochondria"], columns="Measurement", values=measurement)
 
@@ -256,9 +252,15 @@ def read_mitometer_task(
 
             Joana.loop_tick()
 
+        ## Add some utility columns
+        # Add the run info
         run_df["Run ID"] = Joana.run_name
-        run_df["Run Type"] = Joana.run_name.split("_")[0]
-        run_df["Run Number"] = Joana.run_name.split("_")[1]
+        if len(Joana.run_name.split("_")) == 2:
+            run_df["Run Type"] = Joana.run_name.split("_")[0]
+            run_df["Run Number"] = Joana.run_name.split("_")[1]
+
+        # Create category for no movement
+        run_df["Has Moved"] = (~(run_df["displacement"] == 0))
 
         if not Joana.data_directory.exists():
             Joana.data_directory.mkdir()

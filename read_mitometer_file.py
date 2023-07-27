@@ -120,6 +120,75 @@ def plot_summary_task(
 
                 Monet.loop_tick()
 
+            mean_measurements = []
+            median_measurements = []
+            std_measurements = []
+            mean_labels = {}
+            median_labels = {}
+            std_labels = {}
+            labels = {}
+            for measurement in all_measurements:
+                mean_measurement   = f'{measurement} Mean'
+                median_measurement = f'{measurement} Median'
+                std_measurement    = f'{measurement} Standard Deviation'
+
+                mean_measurements   += [mean_measurement]
+                median_measurements += [median_measurement]
+                std_measurements    += [std_measurement]
+
+                label = utilities.measurement_to_label(measurement)
+                labels[measurement] = label
+                mean_labels[mean_measurement]     = label
+                median_labels[median_measurement] = label
+                std_labels[std_measurement]       = label
+
+            utilities.make_multiscatter_plot(
+                data_df = sliced_df,
+                run_name = Monet.run_name,
+                base_path = Monet.task_path,
+                dimensions = mean_measurements,
+                labels = mean_labels,
+                file_name = "multi_scatter_mean",
+                opacity = 0.5,
+            )
+            utilities.make_multiscatter_plot(
+                data_df = sliced_df,
+                run_name = Monet.run_name,
+                base_path = Monet.task_path,
+                dimensions = median_measurements,
+                labels = median_labels,
+                file_name = "multi_scatter_median",
+                opacity = 0.5,
+            )
+            utilities.make_multiscatter_plot(
+                data_df = sliced_df,
+                run_name = Monet.run_name,
+                base_path = Monet.task_path,
+                dimensions = std_measurements,
+                labels = std_labels,
+                file_name = "multi_scatter_std",
+                opacity = 0.5,
+            )
+            utilities.make_multiscatter_plot(
+                data_df = run_df,
+                run_name = Monet.run_name,
+                base_path = Monet.task_path,
+                dimensions = all_measurements,
+                labels = labels,
+                file_name = "multi_scatter",
+                opacity = 0.5,
+            )
+            utilities.make_multiscatter_plot(
+                data_df = run_df,
+                run_name = Monet.run_name,
+                base_path = Monet.task_path,
+                dimensions = all_measurements,
+                labels = labels,
+                file_name = "multi_scatter_movementTag",
+                color_var = "Has Moved",
+                opacity = 0.5,
+            )
+
 def read_mitometer_task(
                         Tiago: RM.RunManager,
                         mitometer_path: Path,

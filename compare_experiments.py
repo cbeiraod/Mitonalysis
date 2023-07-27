@@ -100,7 +100,7 @@ def compare_individual_assays_task(
                 )
 
                 utilities.make_histogram_plot(
-                    data_df = full_df,
+                    data_df = run_df,
                     x_var = f'{measurement}',
                     base_path = output_dir,
                     file_name = f'{measurement}',
@@ -113,7 +113,7 @@ def compare_individual_assays_task(
                 )
 
                 utilities.make_histogram_plot(
-                    data_df = full_df,
+                    data_df = run_df,
                     x_var = f'{measurement}',
                     base_path = output_dir,
                     file_name = f'{measurement}_movementTag',
@@ -179,7 +179,7 @@ def compare_individual_assays_task(
                 opacity = 0.5,
             )
             utilities.make_multiscatter_plot(
-                data_df = full_df,
+                data_df = run_df,
                 run_name = f'{Rembrandt.run_name} - Assay {run}',
                 base_path = output_dir,
                 dimensions = all_measurements,
@@ -189,7 +189,7 @@ def compare_individual_assays_task(
                 opacity = 0.5,
             )
             utilities.make_multiscatter_plot(
-                data_df = full_df,
+                data_df = run_df,
                 run_name = f'{Rembrandt.run_name} - Assay {run}',
                 base_path = output_dir,
                 dimensions = all_measurements,
@@ -458,19 +458,19 @@ def script_main(
     with RM.RunManager(output_path / run_name) as Zacarias:
         Zacarias.create_run(raise_error=False)
 
-        run_list = read_experiments_task(
-                         Zacarias = Zacarias,
-                         mitometer_path = mitometer_path,
-                         logger = logger,
-                         marginal_type = marginal_type,
-                         disable_plots = disable_plots,
-                         )
+        #run_list = read_experiments_task(
+        #                 Zacarias = Zacarias,
+        #                 mitometer_path = mitometer_path,
+        #                 logger = logger,
+        #                 marginal_type = marginal_type,
+        #                 disable_plots = disable_plots,
+        #                 )
 
-        join_experiment_data(
-            Zacarias = Zacarias,
-            experiment_list = run_list,
-            logger = logger
-        )
+        #join_experiment_data(
+        #    Zacarias = Zacarias,
+        #    experiment_list = run_list,
+        #    logger = logger
+        #)
 
         if not disable_plots:
             summarise_experiments_task(

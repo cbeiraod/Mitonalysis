@@ -458,19 +458,19 @@ def script_main(
     with RM.RunManager(output_path / run_name) as Zacarias:
         Zacarias.create_run(raise_error=False)
 
-        #run_list = read_experiments_task(
-        #                 Zacarias = Zacarias,
-        #                 mitometer_path = mitometer_path,
-        #                 logger = logger,
-        #                 marginal_type = marginal_type,
-        #                 disable_plots = disable_plots,
-        #                 )
+        run_list = read_experiments_task(
+                         Zacarias = Zacarias,
+                         mitometer_path = mitometer_path,
+                         logger = logger,
+                         marginal_type = marginal_type,
+                         disable_plots = disable_plots,
+                         )
 
-        #join_experiment_data(
-        #    Zacarias = Zacarias,
-        #    experiment_list = run_list,
-        #    logger = logger
-        #)
+        join_experiment_data(
+            Zacarias = Zacarias,
+            experiment_list = run_list,
+            logger = logger
+        )
 
         if not disable_plots:
             summarise_experiments_task(

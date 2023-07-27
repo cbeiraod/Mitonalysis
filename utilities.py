@@ -172,6 +172,7 @@ def make_multiscatter_plot(
     # this workaround worked for histograms but not for scatters... :(
     #fig.update_layout({"xaxis{}".format(i+1): dict(title = labels[dimensions[i]]) for i in range(len(labels))})
     #fig.update_layout({"yaxis{}".format(i+1): dict(title = labels[dimensions[i]], tickangle = -45) for i in range(len(labels))})
+    fig.update_layout(legend= {'itemsizing': 'constant'})
 
     fig.write_html(
         base_path/f'{file_name}.html',
